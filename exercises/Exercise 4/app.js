@@ -1,18 +1,42 @@
 new Vue({
   el: '#exercise',
   data: {
-    highlightFlag : true,
-    shrinkFlag : false
+    effectClasses: {
+      highlight : true,
+      shrink : false
+    },
+    float : 'float',
+    userClass : "",
+    isVisible: true,
+    myStyle: {
+    	width: '100px',
+      height: '150px',
+      backgroundColor: 'gray'
+    },
+    progressBar: {
+    	width: '0px',
+      backgroundColor: 'red'
+    }
   },
   methods: {
     startEffect: function() {
-      this.highlightFlag = !this.highlightFlag
-      this.shrinkFlag = !this.shrinkFlag
-      
+      setInterval(() => {
+        this.effectClasses.highlight = !this.effectClasses.highlight
+        this.effectClasses.shrink = !this.effectClasses.shrink
+      },1500)
     },
-    call(){
-      console.log(this.h);
-      this.h = !this.h
+    startProgress(){
+      var width = 0
+      setInterval(() => {
+        width = width + 10
+        if(this.checkProgressBarLength(width)) width = 0
+        this.progressBar.width = width + "px"
+      },500)
+    },
+    checkProgressBarLength(width){
+      if(width > 100){
+        return true
+      }
     }
   }
 });
