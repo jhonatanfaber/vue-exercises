@@ -16,16 +16,6 @@ new Vue({
         playerStyle: {
             "background-color": "#87CEFA",
             "color": "#0000FF"
-        },
-        playerHealthbar: {
-            "background-color": "green",
-            "color": "white",
-            "width": "390px"
-        },
-        monsterHealthbar: {
-            "background-color": "green",
-            "color": "white",
-            "width": "390px"
         }
     },
     methods: {
