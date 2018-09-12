@@ -1,8 +1,7 @@
 <template>
-    <div class="quote" @click="deleteQuote">
+    <div class="quote" @click="deleteQuote" >
          {{this.quoteReceived.text}}
     </div>
-    
 </template>
 
 <script>
@@ -25,10 +24,11 @@ export default {
   font-family: cursive;
   text-align: center;
   margin:20px;
+  cursor: pointer;
 
 }
 .quote:hover{
-    background-color: lightcoral
+    background-color: rgb(235, 160, 160)
 }
 
 </style>
