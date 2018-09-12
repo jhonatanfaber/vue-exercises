@@ -3,8 +3,7 @@
         <h2> Quotes Added</h2>
         <div class="header bar"> 
             <div class="header bar filler"  
-                style="background-color: green;color: white; margin:0" 
-                :style="{width : (barLength*10) + '%'}">
+                :style="{width : (barLength * 10) + '%'}"> {{barLength}} / 10
             </div>
         </div>
     </div>
@@ -15,11 +14,16 @@
 <script>
 import { bus } from "./../main.js";
 export default {
-    data(){
-        return {
-            barLength : 0
-        }
-    }
+  data() {
+    return {
+      barLength: 0
+    };
+  },
+  created() {
+    bus.$on("checkArrayLength", length => {
+      this.barLength = length;
+    });
+  }
 };
 </script>
 
@@ -31,13 +35,14 @@ h2 {
 .bar {
   height: 20px;
   text-align: center;
-  width: 80%;
+  width: 100%;
   background-color: #eee;
-  margin: auto;
   transition: width 500ms;
 }
 
 .filler {
+  background-color: rgb(93, 174, 194);
+  color: white;
   border: none;
 }
 </style>

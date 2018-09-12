@@ -26,13 +26,20 @@ export default {
     },
     created() {
         bus.$on("addQuote", quote => {
+        if(this.quotes.length === 10)return
         this.quotes.push(quote);
+        
         });
     },
     methods : {
         removeQuote(id){
             let quoteIndex = this.quotes.findIndex((element) => element.id == id);
             this.quotes.splice(quoteIndex, 1);
+        }
+    },
+    watch:{
+        quotes(){
+            bus.$emit("checkArrayLength", this.quotes.length);
         }
     }
 };
