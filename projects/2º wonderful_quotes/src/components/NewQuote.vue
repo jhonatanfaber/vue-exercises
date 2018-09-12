@@ -1,10 +1,7 @@
 <template>
 <div class="text"> 
     <div class="text__wrapper">
-        <div class="text__wrapper__content">
-            <textarea rows="5" cols="100" v-model="quoteText"></textarea>
-        </div>
-            
+            <textarea rows="4" cols="100" v-model="quoteText"></textarea>
     </div>
         <button @click="addQuote"> Add Quote </button>
 </div>
@@ -17,13 +14,18 @@ import { bus } from "./../main.js";
 export default {
   data() {
     return {
-      quoteText: ""
-    }
+      quoteText: "",
+      quote: {}
+    };
   },
   methods: {
     addQuote() {
-      bus.$emit("addQuote", this.quoteText);
+      this.$set(this.quote, "id",Date.now());
+      this.$set(this.quote, "text", this.quoteText);
+      bus.$emit("addQuote", this.quote);
+      
       this.quoteText = "";
+      this.quote = {}
     }
   }
 };
@@ -31,18 +33,13 @@ export default {
 
 <style scoped>
 .text__wrapper {
-  display: grid;
-  grid-template-columns: repeat(4, auto);
   margin: 50px;
-}
-
-.text__wrapper__content {
-  grid-column: 2/4;
   display: flex;
   justify-content: center;
 }
 
 textarea {
+  width: 60%;
   resize: none;
 }
 
