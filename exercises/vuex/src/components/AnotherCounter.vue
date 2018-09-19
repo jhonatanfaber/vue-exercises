@@ -1,9 +1,8 @@
 <template>
     <div>
                                     <!-- asyncIncrement({by: 50, duration: 1000}) -->
-        <button class="btn btn-primary" @click="increment(5)">Increment</button>
+        <button class="btn btn-primary" @click="increment(10)">Increment</button>
         <button class="btn btn-primary" @click="decrement(5)">Decrement</button>
-
     </div>
 </template>
 
@@ -15,9 +14,11 @@ import {mapActions} from "vuex"
             ...mapActions([
                 "increment",
                 "decrement"
-            ])
-            //this.$store.commit('increment')   if we dont use mapMutations
-            // this.$store.dispatch("increment") id we dont use mapActions
+            ]),
+            //this.$store.commit('increment')   //if we dont use mapMutations
+            // increment(by){
+            //     this.$store.dispatch("increment", by) //id we dont use mapActions
+            // }
         }
     }
 </script>

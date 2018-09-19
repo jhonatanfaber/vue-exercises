@@ -7,6 +7,10 @@
                 <another-result/>
                 <hr>
                 <app-counter></app-counter>
+                <another-counter/>
+                <hr>
+                <input  v-model="age" placeholder="Type your age">
+                <p> {{ age }} </p>
             </div>
         </div>
     </div>
@@ -14,19 +18,26 @@
 
 <script>
     import Counter from './components/Counter.vue';
+    import AnotherCounter from './components/AnotherCounter.vue';
     import Result from './components/Result.vue';
     import AnotherResult from './components/AnotherResult.vue';
 
     export default {
-        data() {
-            return {
-               
+        computed: {
+            age:{
+                get(){
+                    return this.$store.getters.age
+                },
+                set(value){
+                    this.$store.dispatch("updateAge", value)
+                }
             }
         },
         components: {
             appCounter: Counter,
             appResult: Result,
             AnotherResult: AnotherResult,
+            AnotherCounter: AnotherCounter,
         }
     }
 </script>
