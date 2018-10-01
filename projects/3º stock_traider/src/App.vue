@@ -1,30 +1,25 @@
 <template>
     <div class="container">
-        <ul class="nav nav-pills">
-            <router-link to="/" tag="li" active-class="active" exact><a class="nav-link disabled"> Home </a></router-link>
-            <router-link to="/portfolio" tag="li" active-class="active" exact><a class="nav-link disabled"> Portfolio </a></router-link>
-            <router-link to="/stocks" tag="li" active-class="active" exact><a class="nav-link disabled"> Stocks </a></router-link>
-        </ul>
+        <navbar/>
         <router-view> </router-view>
     </div>
+    
+    
 </template>
 
 <script>
-import Home from "./components/Home.vue"
+import Home from "./components/Home.vue";
+import Navbar from "./components/Navbar.vue";
 
 export default {
-    components : {
-        Home
-    }
+  components: {
+    Home,
+    Navbar
+  }
 };
 </script>
 
 <style scoped>
-.nav {
-  background-color: rgb(245, 244, 238);
-  width: 100%;
-  margin-top: 30px;
-}
 
 </style>
 
