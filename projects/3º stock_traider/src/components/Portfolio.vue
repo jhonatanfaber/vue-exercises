@@ -18,7 +18,7 @@
             </div>
             <div class="card-body">
                 <input type="text"  v-model.number="item.selled" placeholder="Quantity">
-                <a class="btn btn-danger" @click="removeQuantity(item)">Sell</a>
+                <a id="ButtonTextColor" class="btn btn-danger" @click="removeQuantity(item)">Sell</a>
             </div>
         </div>
       </template>
@@ -56,6 +56,11 @@ export default {
 
 .card-header {
   background-color: rgb(193, 214, 233);
+  color: rgb(62, 102, 124);
+}
+
+#ButtonTextColor{
+  color: white
 }
 
 .card-body {

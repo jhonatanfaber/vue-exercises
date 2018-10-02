@@ -2,7 +2,7 @@
     <div class="container-navBar">
         <ul class="nav nav-pills navbar-light">
             <div class="left-navbar">
-                <router-link to="/" tag="li" active-class="active" exact><a class="nav-link disabled"> Stock Trader </a></router-link>
+                <router-link id="mainLogo" to="/" tag="li" active-class="active" exact><a class="nav-link disabled"> Stock Trader </a></router-link>
                 <router-link to="/portfolio" tag="li" active-class="active" exact><a class="nav-link disabled"> Portfolio </a></router-link>
                 <router-link to="/stocks" tag="li" active-class="active" exact><a class="nav-link disabled"> Stocks </a></router-link>
             </div>
@@ -48,10 +48,15 @@ export default {
   grid-template-columns: repeat(2, 1fr);
 }
 
+#mainLogo{
+    font-size: 19px;
+}
+
 
 .left-navbar {
   grid-column: 1;
   display: flex;
+  align-items: center;
 }
 
 .right-navbar {

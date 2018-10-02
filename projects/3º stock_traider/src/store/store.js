@@ -5,7 +5,7 @@ Vue.use(vuex)
 
 export const store = new vuex.Store({
     state: {
-        funds: 1000,
+        funds: 200,
         stocks: [
             {
                 id: 1,
@@ -30,8 +30,9 @@ export const store = new vuex.Store({
             }
         ],
         portfolio: [],
-        savedData : [],
-        loadButtonIsClicked :  false
+        savedData: [],
+        loadButtonIsClicked: false,
+        canBuy: true
     },
     getters: {
         funds: state => {
@@ -43,16 +44,24 @@ export const store = new vuex.Store({
         portfolio: state => {
             return state.portfolio
         },
-        savedData(state){
+        savedData(state) {
             return state.savedData
         },
-        loadButtonIsClicked(state){
+        loadButtonIsClicked(state) {
             return state.loadButtonIsClicked
+        },
+        canBuy(state){
+            return state.canBuy
         }
     },
     mutations: {
         updateFundsWhenBuying(state, payload) {
+            state.canBuy = true
             let outgoings = payload.price * payload.quantity
+            if (outgoings > state.funds) {
+                state.canBuy = false
+                return
+            }
             state.funds -= outgoings
         },
         updateFundsWhenSelling(state, payload) {
@@ -60,16 +69,19 @@ export const store = new vuex.Store({
             state.funds += outgoings
         },
         updatePortfolio(state, payload) {
-            let idExists = state.portfolio.some(item => item.id == payload.id)
-            if (idExists) {
-                state.portfolio.forEach(item => {
-                    if (item.id == payload.id) {
-                        return item.quantity += payload.quantity
-                    }
-                })
-            } else {
-                state.portfolio.push(payload)
+            if (state.canBuy) {
+                let idExists = state.portfolio.some(item => item.id == payload.id)
+                if (idExists) {
+                    state.portfolio.forEach(item => {
+                        if (item.id == payload.id) {
+                            return item.quantity += payload.quantity
+                        }
+                    })
+                } else {
+                    state.portfolio.push(payload)
+                }
             }
+
         },
         updatePortfolioQuantity(state, payload) {
             if (payload.quantity <= 0) {
@@ -89,18 +101,18 @@ export const store = new vuex.Store({
             state.stocks.forEach(stock => {
                 let randomNumber = Math.floor(Math.random() * 80) + 10
                 state.portfolio.forEach(item => {
-                    if(item.id == stock.id){
+                    if (item.id == stock.id) {
                         item.price = randomNumber
                     }
                     stock.price = randomNumber
                 })
             })
         },
-        saveData(state){
+        saveData(state) {
             // remove reactivity
             state.savedData = JSON.parse(JSON.stringify(state.portfolio))
         },
-        changeLoadButtonState(state){
+        changeLoadButtonState(state) {
             return state.loadButtonIsClicked = true
         }
     },
@@ -120,10 +132,10 @@ export const store = new vuex.Store({
         createRandomPrice(context, payload) {
             context.commit("createRandomPrice", payload)
         },
-        saveData(context, payload){
+        saveData(context, payload) {
             context.commit("saveData", payload)
         },
-        changeLoadButtonState(context, payload){
+        changeLoadButtonState(context, payload) {
             context.commit("changeLoadButtonState", payload)
         }
     }

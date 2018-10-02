@@ -4,15 +4,18 @@
             :stock="stocks"
             @addItem="addItem"
         />
+      <Alert/>
     </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import Stock from "./Stock.vue";
+import Alert from "./Alert.vue";
 
 export default {
   components: {
-    Stock
+    Stock,
+    Alert
   },
   computed: {
     ...mapGetters(["stocks"])

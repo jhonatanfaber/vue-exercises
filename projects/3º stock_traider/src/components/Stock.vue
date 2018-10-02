@@ -6,7 +6,7 @@
             </div>
             <div class="card-body">
                 <input type="text" v-model.number="item.quantity" placeholder="Quantity">
-                <a class="btn btn-success" @click="addItem(item)">Buy</a>
+                <a id="ButtonTextColor" class="btn btn-success" @click="addItem(item)">Buy</a>
             </div>
         </div> 
     </div>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   props: ["stock"],
@@ -30,6 +30,7 @@ export default {
 </script>
 
 <style scoped>
+
 .stock-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -41,6 +42,11 @@ export default {
 
 .card-header {
   background-color: rgb(232, 241, 232);
+  color: rgb(79, 134, 79);
+}
+
+#ButtonTextColor{
+  color: white
 }
 
 .card-body {
