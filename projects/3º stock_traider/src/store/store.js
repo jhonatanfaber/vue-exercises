@@ -5,7 +5,7 @@ Vue.use(vuex)
 
 export const store = new vuex.Store({
     state: {
-        funds: 200,
+        funds: 500,
         stocks: [
             {
                 id: 1,
