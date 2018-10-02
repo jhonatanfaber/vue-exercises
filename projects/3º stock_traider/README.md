@@ -1,6 +1,6 @@
-# vue-cli
+![description](https://i.gyazo.com/0df0399f24008098445611b764e70b4c.png "app running")
 
-> A Vue.js project
+> In this project I'm using Vuex to centralize state management and Vue router to create a Single-page Application 
 
 ## Build Setup
 
