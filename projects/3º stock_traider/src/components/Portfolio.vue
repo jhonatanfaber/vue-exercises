@@ -1,8 +1,8 @@
 <template>
     <div class="portfolio-container">
-        <div class="card" v-for="item in portfolio" :key="item.id">
-          longi: {{portfolio.length}}
-            <div class="card-header" >
+      <template v-if="loadButtonIsClicked">
+        <div class="card" v-for="item in savedData" :key="item.id">
+          <div class="card-header" >
                 {{item.name}} (Price: {{item.price}} | Quantity: {{item.quantity}}) 
             </div>
             <div class="card-body">
@@ -10,6 +10,19 @@
                 <a class="btn btn-danger" @click="removeQuantity(item)">Sell</a>
             </div>
         </div>
+      </template>
+      <template v-else>
+        <div class="card" v-for="item in portfolio" :key="item.id">
+          <div class="card-header" >
+                {{item.name}} (Price: {{item.price}} | Quantity: {{item.quantity}}) 
+            </div>
+            <div class="card-body">
+                <input type="text"  v-model.number="item.selled" placeholder="Quantity">
+                <a class="btn btn-danger" @click="removeQuantity(item)">Sell</a>
+            </div>
+        </div>
+      </template>
+            
     </div>
 </template>
 
@@ -17,17 +30,13 @@
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  data() {
-    return {
-      quantity: 0
-    };
-  },
   computed: {
-    ...mapGetters(["portfolio"])
+    ...mapGetters(["portfolio", "loadButtonIsClicked", "savedData"])
   },
   methods: {
-    ...mapActions(["updatePortfolioQuantity"]),
+    ...mapActions(["updatePortfolioQuantity", "updateFundsWhenSelling"]),
     removeQuantity(item) {
+      this.updateFundsWhenSelling(item);
       item.quantity -= item.selled;
       this.updatePortfolioQuantity(item);
     }

@@ -5,13 +5,20 @@
             <p> You should Save and Load your data </p>
             <p> Click on 'End-Day' to begin a new day </p>
             <hr>
-            <h4> Your funds : </h4>
+            <h4> Your funds : ${{ funds }} </h4>
         </div>
     </div>
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex"
+
+export default {
+    computed : {
+      ...mapGetters(["funds"])
+    }
+
+};
 </script>
 
 <style scoped>

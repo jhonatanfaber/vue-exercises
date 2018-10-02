@@ -7,14 +7,14 @@
                 <router-link to="/stocks" tag="li" active-class="active" exact><a class="nav-link disabled"> Stocks </a></router-link>
             </div>
             <div class="right-navbar"> 
-                <a href="" class="nav-link disabled"> End day </a>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"  data-toggle="dropdown" aria-haspopup="true">
+                <a href="" @click.prevent="createRandomPrice" class="nav-link disabled"> End day </a>
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" >
                         Save & Load
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Save</a>
-                        <a class="dropdown-item" href="#">Load</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" @click.prevent="saveData">Save</a>
+                        <a class="dropdown-item" @click.prevent="changeLoadButtonState">Load</a>
                     </div>
                 </li>
                 <div id="fundsNavbar"> Funds: ${{funds}} </div>
@@ -24,13 +24,15 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex"
 
 export default {
     computed: {
-        funds () {
-            return this.$store.state.funds
-        }
-    } 
+        ...mapGetters(["funds", "savedData"])
+    },
+    methods : {
+        ...mapActions(["createRandomPrice", "saveData", "changeLoadButtonState"])
+    }
     
 }
 </script>

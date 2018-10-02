@@ -14,14 +14,18 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
-    props: ["stock"],
-    methods : {
-        addItem(item){
-            let newItem = Object.assign({}, item)
-            this.$emit("addItem", newItem)
-        }
+  props: ["stock"],
+  methods: {
+    ...mapActions(["updateFundsWhenBuying"]),
+    addItem(item) {
+      let newItem = Object.assign({}, item);
+      this.updateFundsWhenBuying(newItem);
+      this.$emit("addItem", newItem);
     }
+  }
 };
 </script>
 
