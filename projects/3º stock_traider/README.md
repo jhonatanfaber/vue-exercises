@@ -2,7 +2,7 @@
 
 ![description](https://i.gyazo.com/3a8f16b3395603362e2edc9aac3b430b.gif "Buying items")
 
-![description](https://i.gyazo.com/bc30c9a281daa1e4041c8ba1a4404100.gif "Buying items")
+![description](https://i.gyazo.com/bc30c9a281daa1e4041c8ba1a4404100.gif "Error message")
 
 > In this project I'm using Vuex to centralize state management and Vue router to create a Single-page Application 
 
