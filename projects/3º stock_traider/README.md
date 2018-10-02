@@ -4,7 +4,11 @@
 
 ![description](https://i.gyazo.com/bc30c9a281daa1e4041c8ba1a4404100.gif "Error message")
 
-> In this project I'm using Vuex to centralize state management and Vue router to create a Single-page Application 
+> In this project I'm using Vuex to centralize state management and Vue router to create a Single-page Application.
+
+You have an initial amount of funds. Every time you buy a new item, that amount will decrease or not, depending on your selling and buying.
+You can also 'end day' and the price of the items will change. If you wish, you can save your purchase so that you can load it later.
+If you want to buy and do not have funds enough , an error will be shown.
 
 ## Build Setup
 
