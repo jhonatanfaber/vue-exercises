@@ -21,9 +21,9 @@ export default {
     ...mapGetters(["stocks"])
   },
   methods: {
-    ...mapActions(["updatePortfolio"]),
+    ...mapActions(["buyStock"]),
     addItem(newStock) {
-      this.updatePortfolio(newStock);
+      this.buyStock(newStock);
     }
   }
 };

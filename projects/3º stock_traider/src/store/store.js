@@ -1,5 +1,6 @@
 import Vue from "vue"
 import vuex from "vuex"
+import axios from "axios"
 
 Vue.use(vuex)
 
@@ -7,27 +8,27 @@ export const store = new vuex.Store({
     state: {
         funds: 500,
         stocks: [
-            {
-                id: 1,
-                name: "BMW",
-                price: Math.floor(Math.random() * 80) + 10,
-                quantity: "",
-                selled: ""
-            },
-            {
-                id: 2,
-                name: "Google",
-                price: Math.floor(Math.random() * 80) + 10,
-                quantity: "",
-                selled: ""
-            },
-            {
-                id: 3,
-                name: "Apple",
-                price: Math.floor(Math.random() * 80) + 10,
-                quantity: "",
-                selled: ""
-            }
+            // {
+            //     id: 1,
+            //     name: "BMW",
+            //     price: Math.floor(Math.random() * 80) + 10,
+            //     quantity: "",
+            //     selled: ""
+            // },
+            // {
+            //     id: 2,
+            //     name: "Google",
+            //     price: Math.floor(Math.random() * 80) + 10,
+            //     quantity: "",
+            //     selled: ""
+            // },
+            // {
+            //     id: 3,
+            //     name: "Apple",
+            //     price: Math.floor(Math.random() * 80) + 10,
+            //     quantity: "",
+            //     selled: ""
+            // }
         ],
         portfolio: [],
         savedData: [],
@@ -50,7 +51,7 @@ export const store = new vuex.Store({
         loadButtonIsClicked(state) {
             return state.loadButtonIsClicked
         },
-        canBuy(state){
+        canBuy(state) {
             return state.canBuy
         }
     },
@@ -68,22 +69,17 @@ export const store = new vuex.Store({
             let outgoings = payload.price * payload.selled
             state.funds += outgoings
         },
-        updatePortfolio(state, payload) {
+        buyStock(state, payload) {
             if (state.canBuy) {
-                let idExists = state.portfolio.some(item => item.id == payload.id)
-                if (idExists) {
-                    state.portfolio.forEach(item => {
-                        if (item.id == payload.id) {
-                            return item.quantity += payload.quantity
-                        }
-                    })
+                let element = state.portfolio.find(item => item.id == payload.id)
+                if (element) {
+                    element.quantity += payload.quantity
                 } else {
                     state.portfolio.push(payload)
                 }
             }
-
         },
-        updatePortfolioQuantity(state, payload) {
+        sellStock(state, payload) {
             if (payload.quantity <= 0) {
                 return state.portfolio.forEach((item, index) => {
                     if (item.id == payload.id) {
@@ -106,6 +102,7 @@ export const store = new vuex.Store({
                     }
                     stock.price = randomNumber
                 })
+                stock.price = randomNumber
             })
         },
         saveData(state) {
@@ -114,6 +111,12 @@ export const store = new vuex.Store({
         },
         changeLoadButtonState(state) {
             return state.loadButtonIsClicked = true
+        },
+        settingStocks(state, data) {
+            data.forEach(item => {
+                item.price = Math.floor(Math.random() * 80) + 10
+            })
+            state.stocks = data
         }
     },
     actions: {
@@ -123,11 +126,11 @@ export const store = new vuex.Store({
         updateFundsWhenSelling(context, payload) {
             context.commit("updateFundsWhenSelling", payload)
         },
-        updatePortfolio(context, payload) {
-            context.commit("updatePortfolio", payload)
+        buyStock(context, payload) {
+            context.commit("buyStock", payload)
         },
-        updatePortfolioQuantity(context, payload) {
-            context.commit("updatePortfolioQuantity", payload)
+        sellStock(context, payload) {
+            context.commit("sellStock", payload)
         },
         createRandomPrice(context, payload) {
             context.commit("createRandomPrice", payload)
@@ -137,6 +140,12 @@ export const store = new vuex.Store({
         },
         changeLoadButtonState(context, payload) {
             context.commit("changeLoadButtonState", payload)
+        },
+        initStocks(context) {
+            axios.get("https://stock-traider.firebaseio.com/data.json")
+                .then(response => {
+                    context.commit("settingStocks", response.data.stocks)
+                })
         }
     }
 

@@ -6,7 +6,12 @@
             </div>
             <div class="card-body">
                 <input type="text" v-model.number="item.quantity" placeholder="Quantity">
-                <a id="ButtonTextColor" class="btn btn-success" @click="addItem(item)">Buy</a>
+                <button
+                  id="ButtonTextColor" 
+                  class="btn btn-success"
+                  @click="addItem(item)"
+                  :disabled="item.quantity <= 0 || !Number.isInteger(item.quantity)"
+                > Buy</button>
             </div>
         </div> 
     </div>

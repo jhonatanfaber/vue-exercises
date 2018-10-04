@@ -18,7 +18,10 @@
             </div>
             <div class="card-body">
                 <input type="text"  v-model.number="item.selled" placeholder="Quantity">
-                <a id="ButtonTextColor" class="btn btn-danger" @click="removeQuantity(item)">Sell</a>
+                <button id="ButtonTextColor"
+                  class="btn btn-danger"
+                  @click="removeQuantity(item)"
+                  :disabled="item.selled <= 0 || !Number.isInteger(item.selled)">Sell</button>
             </div>
         </div>
       </template>
@@ -34,11 +37,11 @@ export default {
     ...mapGetters(["portfolio", "loadButtonIsClicked", "savedData"])
   },
   methods: {
-    ...mapActions(["updatePortfolioQuantity", "updateFundsWhenSelling"]),
+    ...mapActions(["sellStock", "updateFundsWhenSelling"]),
     removeQuantity(item) {
       this.updateFundsWhenSelling(item);
       item.quantity -= item.selled;
-      this.updatePortfolioQuantity(item);
+      this.sellStock(item);
     }
   }
 };
@@ -59,8 +62,8 @@ export default {
   color: rgb(62, 102, 124);
 }
 
-#ButtonTextColor{
-  color: white
+#ButtonTextColor {
+  color: white;
 }
 
 .card-body {
