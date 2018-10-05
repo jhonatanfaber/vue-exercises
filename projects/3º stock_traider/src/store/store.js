@@ -7,29 +7,7 @@ Vue.use(vuex)
 export const store = new vuex.Store({
     state: {
         funds: 500,
-        stocks: [
-            // {
-            //     id: 1,
-            //     name: "BMW",
-            //     price: Math.floor(Math.random() * 80) + 10,
-            //     quantity: "",
-            //     selled: ""
-            // },
-            // {
-            //     id: 2,
-            //     name: "Google",
-            //     price: Math.floor(Math.random() * 80) + 10,
-            //     quantity: "",
-            //     selled: ""
-            // },
-            // {
-            //     id: 3,
-            //     name: "Apple",
-            //     price: Math.floor(Math.random() * 80) + 10,
-            //     quantity: "",
-            //     selled: ""
-            // }
-        ],
+        stocks: [],
         portfolio: [],
         savedData: [],
         loadButtonIsClicked: false,
@@ -106,10 +84,11 @@ export const store = new vuex.Store({
             })
         },
         saveData(state) {
-            // remove reactivity
-            state.savedData = JSON.parse(JSON.stringify(state.portfolio))
+            axios.put("https://stock-traider.firebaseio.com/data/savedPortfolio.json", state.portfolio)
+                .then(response => console.log(response))
         },
-        changeLoadButtonState(state) {
+        changeLoadButtonState(state, data) {
+            state.savedData = data
             return state.loadButtonIsClicked = true
         },
         settingStocks(state, data) {
@@ -138,8 +117,11 @@ export const store = new vuex.Store({
         saveData(context, payload) {
             context.commit("saveData", payload)
         },
-        changeLoadButtonState(context, payload) {
-            context.commit("changeLoadButtonState", payload)
+        changeLoadButtonState(context) {
+            axios.get("https://stock-traider.firebaseio.com/data.json")
+                .then(response => {
+                    context.commit("changeLoadButtonState", response.data.savedPortfolio)
+                })
         },
         initStocks(context) {
             axios.get("https://stock-traider.firebaseio.com/data.json")
