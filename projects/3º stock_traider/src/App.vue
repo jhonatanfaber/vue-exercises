@@ -8,12 +8,14 @@
 <script>
 import Home from "./components/Home.vue";
 import Navbar from "./components/Navbar.vue";
-import { data } from "./data/data";
 
 export default {
   components: {
     Home,
     Navbar
+  },
+  created(){
+    this.$store.dispatch("initStocks")
   }
 };
 </script>

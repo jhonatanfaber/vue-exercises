@@ -126,6 +126,8 @@ export const store = new vuex.Store({
         initStocks(context) {
             axios.get("https://stock-traider.firebaseio.com/data.json")
                 .then(response => {
+                    console.log(response.data);
+                    
                     context.commit("settingStocks", response.data.stocks)
                 })
         }

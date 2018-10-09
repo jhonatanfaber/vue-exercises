@@ -18,6 +18,7 @@
                     </div>
                 </li>
                 <div id="fundsNavbar"> Funds: ${{funds}} </div>
+                
             </div>
         </ul>
     </div>
