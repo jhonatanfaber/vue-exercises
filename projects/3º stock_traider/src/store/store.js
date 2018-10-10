@@ -1,17 +1,20 @@
 import Vue from "vue"
 import vuex from "vuex"
 import axios from "axios"
+import {router} from "./../main.js"
 
 Vue.use(vuex)
 
 export const store = new vuex.Store({
     state: {
-        funds: 500,
+        funds: 800,
         stocks: [],
         portfolio: [],
         savedData: [],
         loadButtonIsClicked: false,
-        canBuy: true
+        canBuy: true,
+        user: {},
+        invalidUser: false
     },
     getters: {
         funds: state => {
@@ -31,6 +34,12 @@ export const store = new vuex.Store({
         },
         canBuy(state) {
             return state.canBuy
+        },
+        user(state) {
+            return state.user
+        },
+        invalidUser(state){
+            return state.invalidUser
         }
     },
     mutations: {
@@ -96,6 +105,9 @@ export const store = new vuex.Store({
                 item.price = Math.floor(Math.random() * 80) + 10
             })
             state.stocks = data
+        },
+        login(state, data) {
+            state.user.token = data.token
         }
     },
     actions: {
@@ -126,9 +138,20 @@ export const store = new vuex.Store({
         initStocks(context) {
             axios.get("https://stock-traider.firebaseio.com/data.json")
                 .then(response => {
-                    console.log(response.data);
-                    
                     context.commit("settingStocks", response.data.stocks)
+                })
+        },
+        login(context, payload) {
+            axios.post("http://localhost:3000/login", payload)
+                .then(res => {
+                    if(res.data.token){
+                        router.push({path : "/"})
+                        context.state.user = res.data
+                        context.commit("login", res.data)
+                    }
+                })
+                .catch(error => {
+                    context.state.invalidUser = true
                 })
         }
     }

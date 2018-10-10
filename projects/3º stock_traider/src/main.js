@@ -7,7 +7,7 @@ import { store } from "./store/store"
 Vue.use(VueRouter)
 export const busPrice = new Vue()
 
-const router = new VueRouter({
+export const router = new VueRouter({
   routes,
   mode : "history"
 })
