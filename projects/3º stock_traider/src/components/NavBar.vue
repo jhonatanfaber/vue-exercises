@@ -48,6 +48,7 @@ export default {
 
 
 <style scoped>
+
 .navbar-nav {
   background-color: rgba(230, 230, 233, 0.829);
   width: 100%;
@@ -69,6 +70,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+.nav-item{
+    margin-right: 15px;
 }
 
 </style>

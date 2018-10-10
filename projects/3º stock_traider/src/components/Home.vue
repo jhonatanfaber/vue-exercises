@@ -1,5 +1,6 @@
 <template>
     <div class="home-container">
+      <div class="home-container-wrapper">
         <div class="home-container__information">
             <h2> Trade or  View your Portfolio</h2>
             <p> You should Save and Load your data </p>
@@ -9,6 +10,8 @@
               <h4 > Your funds : ${{ funds }} </h4>
             </div>
         </div>
+
+      </div>
     </div>
 </template>
 
@@ -25,11 +28,15 @@ export default {
 
 <style scoped>
 
+.home-container{
+  display: flex;
+  justify-content: center;
+}
 
-.home-container {
+.home-container-wrapper{
   border: 1px solid rgb(170, 166, 166);
   margin-top: 30px;
-  width: 100%;
+  width: 95%;
   border-radius: 10px;
 }
 
