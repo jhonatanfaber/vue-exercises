@@ -5,14 +5,14 @@
                 <ul class="navbar-nav mr-auto">
                     <div class="left-navbar">
                         <router-link to="/" tag="li" class="nav-item" exact><a class="navbar-brand"> Stock Trader </a></router-link>
-                        <router-link v-if="user.token" to="/portfolio" tag="li" class="nav-item" exact><a class="nav-link"> Portfolio </a></router-link>
-                        <router-link v-if="user.token" to="/stocks" tag="li" class="nav-item" exact><a class="nav-link"> Stocks </a></router-link>
+                        <router-link v-if="!isAdmin && user.token" to="/portfolio" tag="li" class="nav-item" exact><a class="nav-link"> Portfolio </a></router-link>
+                        <router-link v-if="!isAdmin &&user.token" to="/stocks" tag="li" class="nav-item" exact><a class="nav-link"> Stocks </a></router-link>
                     </div>
                     <div class="right-navbar"> 
-                        <li v-if="user.token" class="nav-item" >
+                        <li v-if="!isAdmin && user.token" class="nav-item" >
                             <a class="nav-link" @click.prevent="createRandomPrice" href="">End day</a>
                         </li>
-                        <li v-if="user.token" class="nav-item dropdown">
+                        <li v-if="!isAdmin && user.token" class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Save & Load
                             </a>
@@ -21,10 +21,19 @@
                                 <a class="dropdown-item" @click.prevent="changeLoadButtonState" href="">Load</a>
                             </div>
                         </li>
-                        <li v-if="user.token" class="nav-item">
+                        <li v-if="!isAdmin && user.token" class="nav-item">
                             <a class="nav-link">Funds: ${{funds}}</a>
                         </li>
                         <router-link v-if="!user.token" to="/login" tag="li" class="nav-item" exact><a class="nav-link"> Log in <i class="fas fa-sign-in-alt"></i> </a></router-link>
+                        <li v-if="isAdmin" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Settings
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" @click.prevent="saveData" href="">Create user</a>
+                                <a class="dropdown-item" @click.prevent="changeLoadButtonState" href="">Delete</a>
+                            </div>
+                        </li>
                         <router-link v-if="user.token" to="/login" tag="li" class="nav-item" exact><a class="nav-link"> <i class="fas fa-user"></i> {{user.username}}  </a></router-link>
                     </div>
                 </ul>
@@ -38,7 +47,7 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["funds", "savedData", "user"])
+    ...mapGetters(["funds", "savedData", "user", "isAdmin"])
   },
   methods: {
     ...mapActions(["createRandomPrice", "saveData", "changeLoadButtonState"])

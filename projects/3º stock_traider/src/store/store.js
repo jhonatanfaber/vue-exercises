@@ -14,7 +14,8 @@ export const store = new vuex.Store({
         loadButtonIsClicked: false,
         canBuy: true,
         user: {},
-        invalidUser: false
+        invalidUser: false,
+        isAdmin : false
     },
     getters: {
         funds: state => {
@@ -40,6 +41,9 @@ export const store = new vuex.Store({
         },
         invalidUser(state){
             return state.invalidUser
+        },
+        isAdmin(state){
+            return state.isAdmin
         }
     },
     mutations: {
@@ -145,6 +149,9 @@ export const store = new vuex.Store({
             axios.post("http://localhost:3000/login", payload)
                 .then(res => {
                     if(res.data.token){
+                        if(res.data.admin){
+                            context.state.isAdmin = true
+                        }
                         router.push({path : "/"})
                         context.state.user = res.data
                         context.commit("login", res.data)
