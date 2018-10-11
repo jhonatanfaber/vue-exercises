@@ -19,19 +19,28 @@
                 <td>{{user.username}}</td>
                 <td>{{user.admin ? 'Yes' : 'No'}}</td>
                 <td> 
-                    <i class="fas fa-edit fa-lg"></i>
+                    <i class="fas fa-pen fa-lg"></i>
                     <i class="fas fa-trash-alt fa-lg"></i>
                  </td>
                 </tr>
             </tbody>
-            <i class="fas fa-plus fa-3x"></i>
+            <NewUserModal v-if="showModal" @close="showModal = false">
+                 <!-- <h3 slot="header">custom header</h3> -->
+            </NewUserModal>
+            <button  id="show-modal" @click="showModal = true" class="btn btn-lg"><i class="fas fa-plus"></i> Add User</button>
         </table>
     </div> 
 </template>
 
 <script>
 import mapState from "vuex";
+import NewUserModal from "./NewUserModal.vue"
 export default {
+    data(){
+        return {
+            showModal : false
+        }
+    },
   created() {
     this.$store.dispatch("getUsers")
   },
@@ -39,6 +48,9 @@ export default {
     users(){
         return this.$store.state.users
     }
+  },
+  components : {
+      NewUserModal
   }
 };
 </script>
@@ -53,11 +65,16 @@ export default {
   width: 90%;
 }
 
-.fas.fa-edit{
+.fa-pen{
 margin-right: 15px;
 }
 
 .fa-plus{
-    margin-top: 30%;;
+    color: white;
+}
+
+.btn{
+    background-color: #212529;
+    color: white;
 }
 </style>
