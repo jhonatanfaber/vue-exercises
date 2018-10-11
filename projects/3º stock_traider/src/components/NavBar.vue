@@ -30,8 +30,8 @@
                                 Settings
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" @click.prevent="saveData" href="">Create user</a>
-                                <a class="dropdown-item" @click.prevent="changeLoadButtonState" href="">Delete</a>
+                                <router-link to="/users" tag="li"  exact><a class="dropdown-item"> Manage users </a></router-link>
+                                <a class="dropdown-item" @click.prevent="" href="">??</a>
                             </div>
                         </li>
                         <router-link v-if="user.token" to="/login" tag="li" class="nav-item" exact><a class="nav-link"> <i class="fas fa-user"></i> {{user.username}}  </a></router-link>
@@ -50,7 +50,7 @@ export default {
     ...mapGetters(["funds", "savedData", "user", "isAdmin"])
   },
   methods: {
-    ...mapActions(["createRandomPrice", "saveData", "changeLoadButtonState"])
+    ...mapActions(["createRandomPrice", "saveData", "changeLoadButtonState"]),
   }
 };
 </script>

@@ -1,7 +1,7 @@
 import Vue from "vue"
 import vuex from "vuex"
 import axios from "axios"
-import {router} from "./../main.js"
+import { router } from "./../main.js"
 
 Vue.use(vuex)
 
@@ -15,7 +15,8 @@ export const store = new vuex.Store({
         canBuy: true,
         user: {},
         invalidUser: false,
-        isAdmin : false
+        isAdmin: false,
+        users: []
     },
     getters: {
         funds: state => {
@@ -39,11 +40,14 @@ export const store = new vuex.Store({
         user(state) {
             return state.user
         },
-        invalidUser(state){
+        invalidUser(state) {
             return state.invalidUser
         },
-        isAdmin(state){
+        isAdmin(state) {
             return state.isAdmin
+        },
+        users(state) {
+            return state.users
         }
     },
     mutations: {
@@ -112,6 +116,9 @@ export const store = new vuex.Store({
         },
         login(state, data) {
             state.user.token = data.token
+        },
+        getUsers(state, data) {
+            state.users = data
         }
     },
     actions: {
@@ -148,17 +155,27 @@ export const store = new vuex.Store({
         login(context, payload) {
             axios.post("http://localhost:3000/login", payload)
                 .then(res => {
-                    if(res.data.token){
-                        if(res.data.admin){
+                    if (res.data.token) {
+                        if (res.data.admin) {
                             context.state.isAdmin = true
                         }
-                        router.push({path : "/"})
+                        router.push({ path: "/" })
                         context.state.user = res.data
                         context.commit("login", res.data)
                     }
                 })
                 .catch(error => {
                     context.state.invalidUser = true
+                })
+        },
+        getUsers(context, payload) {
+            axios.get("http://localhost:3000/users", {
+                headers: {
+                    'x-api-token': context.state.user.token
+                }
+            })
+                .then(response => {
+                    context.commit("getUsers", response.data)
                 })
         }
     }
