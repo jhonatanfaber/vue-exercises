@@ -19,36 +19,46 @@
                 <td>{{user.username}}</td>
                 <td>{{user.admin ? 'Yes' : 'No'}}</td>
                 <td> 
-                    <i class="fas fa-pen fa-lg"></i>
-                    <i class="fas fa-trash-alt fa-lg"></i>
+                    <i class="fas fa-pen fa-lg" ></i>
+                    <i class="fas fa-trash-alt fa-lg" @click="deleteUser(user.id, index)"></i>
                  </td>
                 </tr>
             </tbody>
-            <NewUserModal v-if="showModal" @cancel="showModal = false"></NewUserModal>
+            <NewUserModal v-if="showModal" @close="showModal = false"></NewUserModal>
             <button  id="show-modal" @click="showModal = true" class="btn btn-md"><i class="fas fa-plus"></i> Add User</button>
         </table>
     </div> 
 </template>
 
 <script>
-import mapState from "vuex";
-import NewUserModal from "./NewUserModal.vue"
+import NewUserModal from "./NewUserModal.vue";
+import mapActions from "vuex";
+
 export default {
-    data(){
-        return {
-            showModal : false
-        }
-    },
-  created() {
-    this.$store.dispatch("getUsers")
+  data() {
+    return {
+      showModal: false
+    };
   },
-  computed: {
-    users(){
-        return this.$store.getters.users
+  methods: {
+    deleteUser(id, index) {
+        const userToDelete = {
+            id,
+            index
+        }
+      this.$store.dispatch("deleteUser", userToDelete);
     }
   },
-  components : {
-      NewUserModal
+  created() {
+    this.$store.dispatch("getUsers");
+  },
+  computed: {
+    users() {
+      return this.$store.getters.users;
+    }
+  },
+  components: {
+    NewUserModal
   }
 };
 </script>
@@ -63,16 +73,20 @@ export default {
   width: 90%;
 }
 
-.fa-pen{
-margin-right: 15px;
+.fas{
+    cursor: pointer;
 }
 
-.fa-plus{
-    color: white;
+.fa-pen {
+  margin-right: 15px;
 }
 
-.btn{
-    background-color: #212529;
-    color: white;
+.fa-plus {
+  color: white;
+}
+
+.btn {
+  background-color: #212529;
+  color: white;
 }
 </style>

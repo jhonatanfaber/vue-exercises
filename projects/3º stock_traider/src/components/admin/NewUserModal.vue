@@ -6,7 +6,7 @@
 
           <div class="header">
              <h3> New User </h3>
-            <i class="fas fa-times fa-2x" @click="$emit('cancel')"></i>
+            <i class="fas fa-times fa-2x" @click="closeModel"></i>
           </div>
 
           <div class="body">
@@ -29,8 +29,7 @@
           </div>
 
           <div class="footer">
-              <!-- <button class="btn btn-dark" @click="$emit('cancel')"> Cancel </button> -->
-              <button class="btn btn-dark" @click="createNewUser"> Create </button>
+              <label class="btn btn-dark" @click="createNewUser"> Create </label>
           </div>
         </div>
       </div>
@@ -58,6 +57,10 @@ export default {
         admin : this.isAdmin
       }
       this.$store.dispatch("createUser", newUser)
+      this.closeModel();
+    },
+    closeModel(){
+      this.$emit("close")
     }
   }
 };
@@ -115,12 +118,15 @@ export default {
   margin: 20px 0;
 }
 
+.btn:hover {
+color: #fff;
+}
+
 .footer {
   margin-bottom: 10%;
   display: flex;
   justify-content: flex-start;
 }
-
 
 .form-group {
   display: flex;

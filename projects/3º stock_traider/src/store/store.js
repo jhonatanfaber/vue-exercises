@@ -119,6 +119,12 @@ export const store = new vuex.Store({
         },
         getUsers(state, data) {
             state.users = data
+        },
+        createUser(state, data){
+            state.users.push(data)
+        },
+        deleteUser(state, payload){
+            state.users.splice(payload.index, 1)
         }
     },
     actions: {
@@ -183,7 +189,20 @@ export const store = new vuex.Store({
                 headers: {
                     'x-api-token': context.state.user.token
                 }})
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log(response.data);
+                    
+                    context.commit("createUser", response.data )
+                })
+        },
+        deleteUser(context, payload){
+            axios.delete("http://localhost:3000/users/"+ payload.id, {
+                headers: {
+                    'x-api-token': context.state.user.token
+                }})
+                .then(response => {
+                    context.commit("deleteUser", payload )
+                })
         }
     }
 
