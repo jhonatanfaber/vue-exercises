@@ -24,10 +24,8 @@
                  </td>
                 </tr>
             </tbody>
-            <NewUserModal v-if="showModal" @close="showModal = false">
-                 <!-- <h3 slot="header">custom header</h3> -->
-            </NewUserModal>
-            <button  id="show-modal" @click="showModal = true" class="btn btn-lg"><i class="fas fa-plus"></i> Add User</button>
+            <NewUserModal v-if="showModal" @cancel="showModal = false"></NewUserModal>
+            <button  id="show-modal" @click="showModal = true" class="btn btn-md"><i class="fas fa-plus"></i> Add User</button>
         </table>
     </div> 
 </template>
@@ -46,7 +44,7 @@ export default {
   },
   computed: {
     users(){
-        return this.$store.state.users
+        return this.$store.getters.users
     }
   },
   components : {

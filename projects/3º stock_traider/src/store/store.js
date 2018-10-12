@@ -177,6 +177,13 @@ export const store = new vuex.Store({
                 .then(response => {
                     context.commit("getUsers", response.data)
                 })
+        },
+        createUser(context, payload){
+            axios.post("http://localhost:3000/users", payload ,  {
+                headers: {
+                    'x-api-token': context.state.user.token
+                }})
+                .then(response => console.log(response))
         }
     }
 

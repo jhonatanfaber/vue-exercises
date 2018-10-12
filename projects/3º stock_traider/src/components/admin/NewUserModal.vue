@@ -4,30 +4,33 @@
       <div class="modal-wrapper">
         <div class="modal-container">
 
-          <div class="modal-header">
-            <h2> New User </h2>
+          <div class="header">
+             <h3> New User </h3>
+            <i class="fas fa-times fa-2x" @click="$emit('cancel')"></i>
           </div>
 
-          <div class="modal-body">
-           <div class="form-group username">
-                <label for="exampleInputEmail1">Name: </label>
-                <input type="text" v-model="username" class="form-control col-xs-4" :class="{invalidHighlight: invalidUser}" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name">
+          <div class="body">
+           <div class="form-group">
+                <label for="inputName">Name </label>
+                <input type="text" v-model="name" class="form-control col-sm-6"  id="inputName" placeholder="Enter name">
             </div>
-            <div class="form-group username">
-                <label for="exampleInputEmail1">Username: </label>
-                <input type="text" v-model="username" class="form-control col-xs-4" :class="{invalidHighlight: invalidUser}" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username">
+            <div class="form-group">
+                <label for="inputUsername">Username </label>
+                <input type="text" v-model="username" class="form-control col-sm-6" id="inputUsername" placeholder="Enter username">
             </div>
-            <label for="exampleInputEmail1">Admin: </label>
-            <input type="checkbox" v-model="isAdmin" aria-label="First name">
+            <div class="form-group">
+                <label for="inputPassword">Password </label>
+                <input type="password" v-model="password" class="form-control col-sm-6" id="inputPassword" placeholder="Enter password">
+            </div>
+            <div class="form-group">
+              <label> Admin </label>
+              <input type="checkbox" v-model="isAdmin">
+            </div>
           </div>
 
-          <div class="modal-footer">
-            <slot name="footer">
-              default footer
-              <button class="modal-default-button" @click="$emit('close')">
-                Close
-              </button>
-            </slot>
+          <div class="footer">
+              <!-- <button class="btn btn-dark" @click="$emit('cancel')"> Cancel </button> -->
+              <button class="btn btn-dark" @click="createNewUser"> Create </button>
           </div>
         </div>
       </div>
@@ -38,19 +41,28 @@
 <script>
 // TODO: get checkbox value --> TODO list github
 export default {
-    data(){
-        return {
-            showModal : false,
-            isAdmin : false
-        }
+  data() {
+    return {
+      name : "",
+      username : "",
+      password : "",
+      isAdmin: false
+    };
+  },
+  methods : {
+    createNewUser(){
+      const newUser = {
+        name : this.name,
+        username : this.username,
+        password : this.password,
+        admin : this.isAdmin
+      }
+      this.$store.dispatch("createUser", newUser)
     }
-    
-}
+  }
+};
 </script>
 <style scoped>
-.form-control{
-    margin-bottom: 15px;
-}
 
 .modal-mask {
   position: fixed;
@@ -59,9 +71,9 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: table;
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .modal-wrapper {
@@ -72,35 +84,52 @@ export default {
 .modal-container {
   width: 50%;
   margin: 0px auto;
-  padding: 20px 30px;
+  padding: 20px ;
+  padding-left: 5%;
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
+.header h3 {
+  margin-bottom: 7%;
+  color: #070707;
+  font-weight: bold;
 }
 
-.modal-body {
+.header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.fa-times{
+  padding-top: 15px;
+  padding-right: 20px;
+  cursor: pointer;
+}
+
+.body {
   margin: 20px 0;
+}
+
+.footer {
+  margin-bottom: 10%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-default-button {
   float: right;
 }
-
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
 
 .modal-enter {
   opacity: 0;
