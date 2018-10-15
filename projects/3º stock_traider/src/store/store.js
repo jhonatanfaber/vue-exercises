@@ -120,11 +120,21 @@ export const store = new vuex.Store({
         getUsers(state, data) {
             state.users = data
         },
-        createUser(state, data){
+        createUser(state, data) {
             state.users.push(data)
         },
-        deleteUser(state, payload){
+        deleteUser(state, payload) {
             state.users.splice(payload.index, 1)
+        },
+        editUser(state, data) {
+            console.log(data);
+            state.users.forEach(user => {
+                if(user.id == data.id){
+                    user.name = data.name
+                    user.password = data.password
+                    user.admin = data.admin
+                }
+            })
         }
     },
     actions: {
@@ -184,24 +194,34 @@ export const store = new vuex.Store({
                     context.commit("getUsers", response.data)
                 })
         },
-        createUser(context, payload){
-            axios.post("http://localhost:3000/users", payload ,  {
+        createUser(context, payload) {
+            axios.post("http://localhost:3000/users", payload, {
                 headers: {
                     'x-api-token': context.state.user.token
-                }})
+                }
+            })
                 .then(response => {
-                    console.log(response.data);
-                    
-                    context.commit("createUser", response.data )
+                    context.commit("createUser", response.data)
                 })
         },
-        deleteUser(context, payload){
-            axios.delete("http://localhost:3000/users/"+ payload.id, {
+        deleteUser(context, payload) {
+            axios.delete("http://localhost:3000/users/" + payload.id, {
                 headers: {
                     'x-api-token': context.state.user.token
-                }})
+                }
+            })
                 .then(response => {
-                    context.commit("deleteUser", payload )
+                    context.commit("deleteUser", payload)
+                })
+        },
+        editUser(context, payload) {
+            axios.put("http://localhost:3000/users/" + payload.id, payload, {
+                headers: {
+                    'x-api-token': context.state.user.token
+                }
+            })
+                .then(res => {
+                    context.commit("editUser", res.data)
                 })
         }
     }

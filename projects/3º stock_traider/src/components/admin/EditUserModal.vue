@@ -5,31 +5,26 @@
         <div class="modal-container">
 
           <div class="header">
-             <h3> New User </h3>
+             <h3> Edit User </h3>
             <i class="fas fa-times fa-2x" @click="closeModel"></i>
           </div>
 
           <div class="body">
            <div class="form-group">
                 <label for="inputName">Name </label>
-                <input type="text" v-model="name" class="form-control col-sm-6"  id="inputName" placeholder="Enter name">
-            </div>
-            <div class="form-group">
-                <label for="inputUsername">Username </label>
-                <input type="text" v-model="username" class="form-control col-sm-6" id="inputUsername" placeholder="Enter username">
+                <input type="text" v-model="editedUser.name" class="form-control col-sm-6"  id="inputName" placeholder="Enter name">
             </div>
             <div class="form-group">
                 <label for="inputPassword">Password </label>
-                <input type="password" v-model="password" class="form-control col-sm-6" id="inputPassword" placeholder="Enter password">
+                <input type="password" v-model="editedUser.password" class="form-control col-sm-6" id="inputPassword" placeholder="Enter password">
             </div>
             <div class="form-group">
               <label> Admin </label>
-              <input type="checkbox" v-model="isAdmin">
+              <input type="checkbox" v-model="editedUser.admin">
             </div>
           </div>
-
           <div class="footer">
-              <label class="btn btn-dark" @click="createNewUser"> Create </label>
+              <label class="btn btn-dark" @click="editUser"> Edit </label>
           </div>
         </div>
       </div>
@@ -41,31 +36,36 @@
 export default {
   data() {
     return {
-      name : "",
-      username : "",
-      password : "",
-      isAdmin: false
+        editedUser : {
+            id : this.user.id,
+            name : this.user.name,
+            password : "",
+            admin : this.user.admin
+        }
     };
   },
-  methods : {
-    createNewUser(){
-      const newUser = {
-        name : this.name,
-        username : this.username,
-        password : this.password,
-        admin : this.isAdmin
-      }
-      this.$store.dispatch("createUser", newUser)
-      this.closeModel();
+  props: {
+    user: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  methods: {
+    closeModel() {
+      this.$emit("close");
     },
-    closeModel(){
-      this.$emit("close")
+    editUser(){
+      //TODO: fix password update, its always updating
+      this.$store.dispatch("editUser", this.editedUser)
+      this.closeModel()
     }
   }
 };
 </script>
-<style scoped>
 
+
+
+<style scoped>
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -86,7 +86,7 @@ export default {
 .modal-container {
   width: 50%;
   margin: 0px auto;
-  padding: 20px ;
+  padding: 20px;
   padding-left: 5%;
   background-color: #fff;
   border-radius: 2px;
@@ -101,13 +101,13 @@ export default {
   font-weight: bold;
 }
 
-.header{
+.header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.fa-times{
+.fa-times {
   padding-top: 15px;
   padding-right: 20px;
   cursor: pointer;
@@ -118,7 +118,7 @@ export default {
 }
 
 .btn:hover {
-color: #fff;
+  color: #fff;
 }
 
 .footer {
