@@ -55,7 +55,6 @@ export default {
       this.$emit("close");
     },
     editUser(){
-      //TODO: fix password update, its always updating
       this.$store.dispatch("editUser", this.editedUser)
       this.closeModel()
     }

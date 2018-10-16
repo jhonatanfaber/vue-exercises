@@ -1,6 +1,7 @@
 import Vue from "vue"
 import vuex from "vuex"
-import axios from "axios"
+import customisedUsersAxios from "./../customisedAxios/usersAxios.js"
+import customisedStocksAxios from "./../customisedAxios/stocksAxios.js"
 import { router } from "./../main.js"
 
 Vue.use(vuex)
@@ -100,10 +101,6 @@ export const store = new vuex.Store({
                 stock.price = randomNumber
             })
         },
-        saveData(state) {
-            axios.put("https://stock-traider.firebaseio.com/data/savedPortfolio.json", state.portfolio)
-                .then(response => console.log(response))
-        },
         changeLoadButtonState(state, data) {
             state.savedData = data
             return state.loadButtonIsClicked = true
@@ -129,7 +126,7 @@ export const store = new vuex.Store({
         editUser(state, data) {
             console.log(data);
             state.users.forEach(user => {
-                if(user.id == data.id){
+                if (user.id == data.id) {
                     user.name = data.name
                     user.password = data.password
                     user.admin = data.admin
@@ -154,27 +151,29 @@ export const store = new vuex.Store({
             context.commit("createRandomPrice", payload)
         },
         saveData(context, payload) {
-            context.commit("saveData", payload)
+            customisedStocksAxios.put("/data/savedPortfolio.json", context.state.portfolio)
+                .then(response => console.log(response))
         },
         changeLoadButtonState(context) {
-            axios.get("https://stock-traider.firebaseio.com/data.json")
+            customisedStocksAxios.get("/data.json")
                 .then(response => {
                     context.commit("changeLoadButtonState", response.data.savedPortfolio)
                 })
         },
         initStocks(context) {
-            axios.get("https://stock-traider.firebaseio.com/data.json")
+            customisedStocksAxios.get("/data.json")
                 .then(response => {
                     context.commit("settingStocks", response.data.stocks)
                 })
         },
         login(context, payload) {
-            axios.post("http://localhost:3000/login", payload)
+            customisedUsersAxios.post("/login", payload)
                 .then(res => {
                     if (res.data.token) {
                         if (res.data.admin) {
                             context.state.isAdmin = true
                         }
+                        //redirects to home after log in
                         router.push({ path: "/" })
                         context.state.user = res.data
                         context.commit("login", res.data)
@@ -185,7 +184,7 @@ export const store = new vuex.Store({
                 })
         },
         getUsers(context, payload) {
-            axios.get("http://localhost:3000/users", {
+            customisedUsersAxios.get("/users", {
                 headers: {
                     'x-api-token': context.state.user.token
                 }
@@ -195,7 +194,7 @@ export const store = new vuex.Store({
                 })
         },
         createUser(context, payload) {
-            axios.post("http://localhost:3000/users", payload, {
+            customisedUsersAxios.post("/users", payload, {
                 headers: {
                     'x-api-token': context.state.user.token
                 }
@@ -205,7 +204,7 @@ export const store = new vuex.Store({
                 })
         },
         deleteUser(context, payload) {
-            axios.delete("http://localhost:3000/users/" + payload.id, {
+            customisedUsersAxios.delete("/users/" + payload.id, {
                 headers: {
                     'x-api-token': context.state.user.token
                 }
@@ -215,7 +214,7 @@ export const store = new vuex.Store({
                 })
         },
         editUser(context, payload) {
-            axios.put("http://localhost:3000/users/" + payload.id, payload, {
+            customisedUsersAxios.put("/users/" + payload.id, payload, {
                 headers: {
                     'x-api-token': context.state.user.token
                 }
