@@ -124,7 +124,6 @@ export const store = new vuex.Store({
             state.users.splice(payload.index, 1)
         },
         editUser(state, data) {
-            console.log(data);
             state.users.forEach(user => {
                 if (user.id == data.id) {
                     user.name = data.name
@@ -132,6 +131,11 @@ export const store = new vuex.Store({
                     user.admin = data.admin
                 }
             })
+        },
+        logout(state){
+            state.user = {};
+            state.invalidUser = true
+            state.isAdmin = false
         }
     },
     actions: {
@@ -166,6 +170,8 @@ export const store = new vuex.Store({
                     context.commit("settingStocks", response.data.stocks)
                 })
         },
+        // TODO: creste log out action: settimeout with expiresIn time
+        // here we dispatch the logout so thast after X secons its logs out automat...
         login(context, payload) {
             customisedUsersAxios.post("/login", payload)
                 .then(res => {
@@ -177,6 +183,8 @@ export const store = new vuex.Store({
                         router.push({ path: "/" })
                         context.state.user = res.data
                         context.commit("login", res.data)
+                        context.dispatch("setLogoutTimer", res.data.expiresIn)
+                        //localStorage.setItem("token", res.data.token)
                     }
                 })
                 .catch(error => {
@@ -222,6 +230,11 @@ export const store = new vuex.Store({
                 .then(res => {
                     context.commit("editUser", res.data)
                 })
+        },
+        setLogoutTimer(context, expirationTime){
+            setTimeout( () => {
+                context.commit("logout")
+            }, expirationTime * 1000)
         }
     }
 
