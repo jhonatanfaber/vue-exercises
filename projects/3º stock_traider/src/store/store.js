@@ -67,7 +67,7 @@ export const store = new vuex.Store({
         },
         buyStock(state, payload) {
             if (state.canBuy) {
-                let element = state.portfolio.find(item => item.id == payload.id)
+                let element = state.portfolio.find(item => item.admin == payload.id)
                 if (element) {
                     element.quantity += payload.quantity
                 } else {
@@ -112,7 +112,8 @@ export const store = new vuex.Store({
             state.stocks = data
         },
         login(state, data) {
-            state.user.token = data.token
+            state.user = data
+            console.log(state.user);
         },
         getUsers(state, data) {
             state.users = data
@@ -132,10 +133,10 @@ export const store = new vuex.Store({
                 }
             })
         },
-        logout(state){
+        clearUserData(state){
             state.user = {};
-            state.invalidUser = true
             state.isAdmin = false
+            localStorage.clear()
         }
     },
     actions: {
@@ -170,8 +171,6 @@ export const store = new vuex.Store({
                     context.commit("settingStocks", response.data.stocks)
                 })
         },
-        // TODO: creste log out action: settimeout with expiresIn time
-        // here we dispatch the logout so thast after X secons its logs out automat...
         login(context, payload) {
             customisedUsersAxios.post("/login", payload)
                 .then(res => {
@@ -181,10 +180,18 @@ export const store = new vuex.Store({
                         }
                         //redirects to home after log in
                         router.push({ path: "/" })
-                        context.state.user = res.data
                         context.commit("login", res.data)
+
+                        // auto log out after X seconds has passed(check out API to see the expiresIn value)
                         context.dispatch("setLogoutTimer", res.data.expiresIn)
-                        //localStorage.setItem("token", res.data.token)
+
+                        let now = new Date(Date.now());
+                        let expirationDate = new Date(now.getTime() + (res.data.expiresIn * 1000));
+                        localStorage.setItem("expirationDate", expirationDate)
+                        localStorage.setItem("token", res.data.token);
+                        localStorage.setItem("id", res.data.id);
+                        localStorage.setItem("username", res.data.username);
+                        localStorage.setItem("admin", res.data.admin);
                     }
                 })
                 .catch(error => {
@@ -233,8 +240,33 @@ export const store = new vuex.Store({
         },
         setLogoutTimer(context, expirationTime){
             setTimeout( () => {
-                context.commit("logout")
+                context.commit("clearUserData")
             }, expirationTime * 1000)
+        },
+        tryAutoLogin(context){
+            const token = localStorage.getItem("token");
+            if(!token) return 
+            const expirationDate = localStorage.getItem("expirationDate")
+            const now = Date.now()
+            if(now >= new Date (expirationDate)){
+                context.commit("clearUserData")
+                return
+            } 
+            
+            const id = localStorage.getItem("id")
+            const username = localStorage.getItem("username")
+            const admin = localStorage.getItem("admin")
+            if(admin){
+                context.state.isAdmin = true
+            }
+            context.commit("login", {
+                id,
+                username,
+                admin,
+                token
+            })
+            
+
         }
     }
 

@@ -16,6 +16,7 @@ export default {
   },
   created(){
     this.$store.dispatch("initStocks")
+    this.$store.dispatch("tryAutoLogin")
   }
 };
 </script>

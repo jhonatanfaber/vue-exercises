@@ -12,8 +12,6 @@ export const router = new VueRouter({
   mode : "history"
 })
 
-console.log(store);
-
 new Vue({
   el: '#app',
   store,
