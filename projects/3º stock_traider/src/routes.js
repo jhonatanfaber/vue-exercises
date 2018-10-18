@@ -7,34 +7,23 @@ import Users from "./components/admin/Users.vue"
 
 
 export const routes = [
-    { path: '/', component: Home },
-    { path: '/login', component: Login },
     {
-        path: "/portfolio", component: Portfolio, beforeEnter: (to, from, next) => {
-            if (store.state.user.token) {
-                next()
-            } else {
-                next("/login")
-            }
-        }
+        path: '/', name: "home", component: Home
     },
     {
-        path: "/stocks", component: Stocks, beforeEnter: (to, from, next) => {
-            if (store.state.user.token) {
-                next()
-            } else {
-                next("/login")
-            }
-        }
+        path: '/login', name: "login", component: Login
     },
     {
-        path: "/users", component: Users, beforeEnter: (to, from, next) => {
-            if (store.state.user.token) {
-                next()
-            } else {
-                next("/login")
-            }
-        }
+        path: "/portfolio", name: "portfolio", component: Portfolio
     },
-    { path: "/*", redirect: "/" },
+    {
+        path: "/stocks", name: "stocks", component: Stocks
+    },
+    {
+        path: "/users", name: "users", component: Users
+    },
+    {
+        path: "/*", redirect: "/"
+    },
 ]
+

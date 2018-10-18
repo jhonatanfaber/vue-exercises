@@ -9,8 +9,20 @@ export const busPrice = new Vue()
 
 export const router = new VueRouter({
   routes,
-  mode : "history"
+  mode: "history"
 })
+
+const openRoutes = ["home", "login"]
+router.beforeEach((to, from, next) => {
+  if (openRoutes.includes(to.name)) {
+    next()
+  } else if (store.state.user.token) {
+    next()
+  } else {
+    next("/login")
+  }
+
+});
 
 new Vue({
   el: '#app',
