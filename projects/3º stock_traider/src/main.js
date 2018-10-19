@@ -12,11 +12,12 @@ export const router = new VueRouter({
   mode: "history"
 })
 
+//Global navigation guard
 const openRoutes = ["home", "login"]
 router.beforeEach((to, from, next) => {
   if (openRoutes.includes(to.name)) {
     next()
-  } else if (store.state.user.token) {
+  } else if (store.state.user.token || localStorage.getItem("token")) {
     next()
   } else {
     next("/login")

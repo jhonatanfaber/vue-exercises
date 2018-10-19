@@ -113,7 +113,6 @@ export const store = new vuex.Store({
         },
         login(state, data) {
             state.user = data
-            console.log(state.user);
         },
         getUsers(state, data) {
             state.users = data
@@ -243,6 +242,7 @@ export const store = new vuex.Store({
                 context.commit("clearUserData")
             }, expirationTime * 1000)
         },
+        //dispatched in app.vue
         tryAutoLogin(context){
             const token = localStorage.getItem("token");
             if(!token) return 
@@ -252,11 +252,10 @@ export const store = new vuex.Store({
                 context.commit("clearUserData")
                 return
             } 
-            
             const id = localStorage.getItem("id")
             const username = localStorage.getItem("username")
             const admin = localStorage.getItem("admin")
-            if(admin){
+            if(admin === "true"){
                 context.state.isAdmin = true
             }
             context.commit("login", {
