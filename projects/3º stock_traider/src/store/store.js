@@ -237,6 +237,9 @@ export const store = new vuex.Store({
                     context.commit("editUser", res.data)
                 })
         },
+        logout(context){
+            context.commit("clearUserData")
+        },
         setLogoutTimer(context, expirationTime){
             setTimeout( () => {
                 context.commit("clearUserData")

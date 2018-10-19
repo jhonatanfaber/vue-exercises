@@ -24,17 +24,22 @@
                         <li v-if="!isAdmin && user.token" class="nav-item">
                             <a class="nav-link">Funds: ${{funds}}</a>
                         </li>
-                        <router-link v-if="!user.token" to="/login" tag="li" class="nav-item" exact><a class="nav-link"> Log in <i class="fas fa-sign-in-alt"></i> </a></router-link>
+                        <router-link v-if="!user.token" to="/login" tag="li" class="nav-item" exact><a class="nav-link"> <i class="fas fa-sign-in-alt"></i> Log in </a></router-link>
                         <li v-if="isAdmin" class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Settings
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link to="/users" tag="li"  exact><a class="dropdown-item"> Manage users </a></router-link>
-                                <a class="dropdown-item" @click.prevent="" href="">??</a>
+                                <router-link to="" tag="li"  exact><a class="dropdown-item"> Profile </a></router-link>
                             </div>
                         </li>
-                        <router-link v-if="user.token" to="/login" tag="li" class="nav-item" exact><a class="nav-link"> <i class="fas fa-user"></i> {{user.username}}  </a></router-link>
+                        <li v-if="user.token" class="nav-item">
+                            <a class="nav-link"><i class="fas fa-user"></i> {{user.username}}</a>
+                        </li>
+                        <li v-if="user.token" class="nav-item">
+                            <a @click="logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i> Log out </a>
+                        </li>
                     </div>
                 </ul>
             </div>
@@ -50,7 +55,7 @@ export default {
     ...mapGetters(["funds", "savedData", "user", "isAdmin"])
   },
   methods: {
-    ...mapActions(["createRandomPrice", "saveData", "changeLoadButtonState"]),
+    ...mapActions(["createRandomPrice", "saveData", "changeLoadButtonState", "logout"]),
   }
 };
 </script>
@@ -83,6 +88,11 @@ export default {
 
 .nav-item{
     margin-right: 15px;
+}
+
+.fa-sign-out-alt,
+.logout{
+    cursor: pointer;
 }
 
 </style>
