@@ -6,6 +6,7 @@ import { router } from "./../main.js"
 
 Vue.use(vuex)
 
+// TODO: refactor in modules
 export const store = new vuex.Store({
     state: {
         funds: 800,
@@ -136,6 +137,7 @@ export const store = new vuex.Store({
             state.user = {};
             state.isAdmin = false
             localStorage.clear()
+            router.push({ path: "/login" })
         }
     },
     actions: {
