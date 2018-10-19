@@ -6,6 +6,9 @@ In this project, I'm using Vuex to centralize state management, Vue router to cr
 When a user has loggued in, they will have a token. When this token has expired, they need to sign in again with their credentials.
 
 ![description](https://i.gyazo.com/06a8683fbfb72d0b90e34f04b9b881a9.gif "Home & login")
+
+##
+
 ![description](https://i.gyazo.com/3bcc9935420ca85bba504ac40abaca8d.gif "token saved in localStorage")
 
 
@@ -13,7 +16,13 @@ You can sign in as an admin or as a normal user. The admin can manage other user
 (Check out the store.js file to see how I manage all the process in the actions and mutations).
 
 ![description](https://i.gyazo.com/e72b24c6d07cd96f3e61667ac3c91f7d.gif "Admin Panel")
+
+##
+
 ![description](https://i.gyazo.com/ddb0c89eecd3d89c608d5da49d98011d.gif "Add user")
+
+##
+
 ![description](https://i.gyazo.com/dd2a7428773f9c9970fb9726873330e1.gif "Edit & Remove user")
 
 As a user, you have an initial amount of funds. Every time you buy a new item, that amount will decrease, or not, depending on your selling and buying.
