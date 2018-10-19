@@ -14,13 +14,33 @@ export const routes = [
         path: '/login', name: "login", component: Login
     },
     {
-        path: "/portfolio", name: "portfolio", component: Portfolio
+        path: "/portfolio", name: "portfolio", component: Portfolio , beforeEnter (to, from, next) {
+            if(store.getters.user.admin === false || localStorage.getItem("admin") == "false"){
+                next()
+            }else{
+                next(from.path)
+            }
+        }
     },
     {
-        path: "/stocks", name: "stocks", component: Stocks
+        path: "/stocks", name: "stocks", component: Stocks, beforeEnter(to, from, next) {
+            if (store.getters.user.admin === false ||  localStorage.getItem("admin") == "false") {
+                next()
+            } else {
+                next(from.path)
+            }
+        }
     },
     {
-        path: "/users", name: "users", component: Users
+        path: "/users", name: "users", component: Users, beforeEnter(to, from, next) {
+            console.log(store.getters.user.admin);
+            
+            if (store.getters.user.admin === true || localStorage.getItem("admin") == "true") {
+                next()
+            } else {
+                next(from.path)
+            }
+        }
     },
     {
         path: "/*", redirect: "/"
