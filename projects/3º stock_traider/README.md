@@ -1,6 +1,7 @@
 # Stock Traider
 
-In this project, I'm using Vuex to centralize state management, Vue router to create a Single-page Application, navigation guards to protect routes and axios to connect to my own API (check out the repository https://github.com/jhonatanfaber/API-SHOP-express).
+In this project, I'm using Vuex to centralize state management, Vue router to create a Single-page Application, navigation guards to protect routes, axios to connect to my own API and authentication (JWT).
+check out the API https://github.com/jhonatanfaber/API-SHOP-express.
 
 
 ### Home & Login
